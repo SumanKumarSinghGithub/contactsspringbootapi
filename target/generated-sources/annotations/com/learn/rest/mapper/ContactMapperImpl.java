@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-07-25T03:57:47+0530",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.35.0.v20230622-1425, environment: Java 17.0.7 (Eclipse Adoptium)"
+    date = "2023-07-25T04:05:05+0530",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.7 (Oracle Corporation)"
 )
 @Component
 public class ContactMapperImpl implements ContactMapper {
@@ -23,12 +23,12 @@ public class ContactMapperImpl implements ContactMapper {
 
         Contact contact = new Contact();
 
-        contact.setContactGroup( contactDto.getContactGroup() );
         contact.setContactId( contactDto.getContactId() );
-        contact.setEmail( contactDto.getEmail() );
         contact.setFirstName( contactDto.getFirstName() );
         contact.setLastName( contactDto.getLastName() );
         contact.setMobile( contactDto.getMobile() );
+        contact.setEmail( contactDto.getEmail() );
+        contact.setContactGroup( contactDto.getContactGroup() );
 
         return contact;
     }
@@ -41,12 +41,12 @@ public class ContactMapperImpl implements ContactMapper {
 
         ContactDto contactDto = new ContactDto();
 
-        contactDto.setContactGroup( contact.getContactGroup() );
         contactDto.setContactId( contact.getContactId() );
-        contactDto.setEmail( contact.getEmail() );
         contactDto.setFirstName( contact.getFirstName() );
         contactDto.setLastName( contact.getLastName() );
         contactDto.setMobile( contact.getMobile() );
+        contactDto.setEmail( contact.getEmail() );
+        contactDto.setContactGroup( contact.getContactGroup() );
 
         return contactDto;
     }
