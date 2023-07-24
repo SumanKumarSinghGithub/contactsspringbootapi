@@ -6,21 +6,63 @@
 
 pipeline {
     agent any
+    environment {
+        mavenHome = tool 'mavenjenkins' 
+        dockerHome = tool 'dockerjenkins'
+        PATH = "${mavenHome}/bin:${dockerHome}/bin:${PATH}"
+    }
     stages {
+        stage('Info') {
+            steps {
+                echo "$env.JOB_NAME"
+                echo "$env.BUILD_NUMBER"
+                echo "$env.BUILD_ID"
+                echo "$env.BUILD_URL"
+            }
+            
+        }
         stage('Compile') {
             steps {
-                echo "mvn clean compile"
+                sh "mvn clean compile"
             }
         }
         stage('Test') {
             steps {
-                echo "mvn test"
+                sh "mvn test"
             }
         }
-        stage('Build') {
+        stage('Package') {
             steps {
-                echo "mvn package"
+                sh "mvn package -DskipTests"
             }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    dockerImage = docker.build("gangnum/contactsbootapi:${env.BUILD_NUMBER}")
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockercred') {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+    
+    }
+    post{
+        always{
+            echo "This is always executed"
+        }
+        success{
+            echo "This is executed only if the build succeeds"
+        }
+        failure{
+            echo "This is executed only if the build fails"
         }
     }
 }
